@@ -1,12 +1,34 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { StyleSheet, View, FlatList } from 'react-native'
 
+import { Producto } from '../components'
 
-// Muestra el listado de todos los productos (filtrados por categoría)
+import { useSelector, useDispatch } from 'react-redux'
+import { filtrarProductos, seleccionarProducto } from '../store/actions/productos.action'
+
+// Muestra el listado de los productos (filtrados por categoría)
 const ListadoProductos = ({navigation}) => {
+
+    const categoriaSeleccionada = useSelector(state => state.categorias.seleccionada)
+    const productosFiltrados = useSelector(state => state.productos.filtrados)
+
+    const dispatch = useDispatch()
+    React.useEffect(() => {
+        dispatch(filtrarProductos(categoriaSeleccionada))
+    }, [categoriaSeleccionada])
+
+    const verDetalle = (idProducto) => {
+        dispatch(seleccionarProducto(idProducto))
+        navigation.navigate("DetalleProducto")
+    }
+
     return (
         <View>
-            <Text>ListadoProductos</Text>
+            <FlatList
+                data={productosFiltrados}
+                keyExtractor={producto => producto.id}
+                renderItem={({item}) => <Producto producto={item} onPress={()=>{verDetalle(item.id)}} />}
+            />
         </View>
     )
 }
