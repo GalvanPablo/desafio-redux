@@ -2,11 +2,12 @@ import React from 'react'
 import { Button, FlatList, StyleSheet, Text, View } from 'react-native'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { limpiarCarrito, eliminarProductoCarrito } from '../store/actions/carrito.actions'
+import { limpiarCarrito, eliminarProductoCarrito, comprarProductos } from '../store/actions/carrito.actions'
 
 const Carrito = () => {
 
     const carrito = useSelector(state => state.carrito.listado)
+    const total = useSelector(state => state.carrito.total)
     const dispatch = useDispatch()
 
     return (
@@ -22,7 +23,6 @@ const Carrito = () => {
                         <Text>{item.cantidad} ud.</Text>
                         <Text>{item.producto.nombre}</Text>
                         <Text>${item.producto.precio}</Text>
-                        
                     </View>
                 )}
                 keyExtractor={item => item.producto.id}
@@ -30,11 +30,12 @@ const Carrito = () => {
             {
                 carrito.length > 0 &&
                 <>
+                    <Text style={styles.titulo}>Total: ${total}</Text>
                     <Button title="Limpiar carrito" onPress={()=>{
                         dispatch(limpiarCarrito())
                     }}/>
                     <Button title="Comprar" onPress={()=>{
-                        console.log('Comprar')
+                        dispatch(comprarProductos(carrito, total))
                     }}/>
                 </>
             }
