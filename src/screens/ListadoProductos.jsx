@@ -4,7 +4,7 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import { Producto } from '../components'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { filtrarProductos, seleccionarProducto } from '../store/actions/productos.action'
+import { obtenerProductos, filtrarProductos, seleccionarProducto } from '../store/actions/productos.action'
 
 // Muestra el listado de los productos (filtrados por categoría)
 const ListadoProductos = ({navigation}) => {
@@ -13,6 +13,11 @@ const ListadoProductos = ({navigation}) => {
     const productosFiltrados = useSelector(state => state.productos.filtrados)
 
     const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        dispatch(obtenerProductos())
+    }, [])
+
     React.useEffect(() => {
         dispatch(filtrarProductos(categoriaSeleccionada))
     }, [categoriaSeleccionada])

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { agregarProductoCarrito } from '../store/actions/carrito.actions'
 
 const DetalleProducto = () => {
-    const producto = useSelector(state => state.productos.todos).find((p) => p.id === useSelector(state => state.productos.seleccionado))
+    const producto = useSelector(state => state.productos.seleccionado)
 
     const dispatch = useDispatch()
 

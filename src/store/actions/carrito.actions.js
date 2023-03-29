@@ -29,7 +29,7 @@ export const limpiarCarrito = () => ({
 export const comprarProductos = (listado, total) => {
     return async (dispatch) => {
         try {
-            const response = await fetch(`${API_URL}categorias.json`, {
+            const response = await fetch(`${API_URL}ordenes.json`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
